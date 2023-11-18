@@ -1,7 +1,6 @@
 import express from "express";
 import connectDatabase from "./config/dbconnect.js";
 import routes from "./routes/index.js";
-// import album from "./model/Album.js";
 
 const connection = await connectDatabase();
 
@@ -15,22 +14,11 @@ connection.once("open", () => {
 
 const app = express();
 routes(app);
-// app.use(express.json());
-
-// app.get("/albums", async (req, res) => {
-//   const listAll = await album.find({});
-//   res.status(200).json(listAll);
-// });
 
 // app.get("/albums/:id", (req, res) => {
 //   const index = findAlbum(req.params.id);
 //   res.status(200).json(albums[index]);
 // });
-
-app.post("/albums", (req, res) => {
-  albums.push(req.body);
-  res.status(201).send("Album adicionado com sucesso!");
-});
 
 app.put("/albums/:id", (req, res) => {
   const index = findAlbum(req.params.id); 
@@ -46,4 +34,3 @@ app.delete("/albums/:id", (req, res) => {
 
 export default app;
 
-// mongodb+srv://admin:<password>@cluster0.o0pu6wu.mongodb.net/?retryWrites=true&w=majority
