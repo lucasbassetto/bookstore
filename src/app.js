@@ -9,22 +9,11 @@ connection.on("error", (error) => {
 });
 
 connection.once("open", () => {
-   console.log("Connection with MongoDB was successful!");
+  console.log("Connection with MongoDB was successful!");
 });
 
 const app = express();
 routes(app);
-
-// app.get("/albums/:id", (req, res) => {
-//   const index = findAlbum(req.params.id);
-//   res.status(200).json(albums[index]);
-// });
-
-app.put("/albums/:id", (req, res) => {
-  const index = findAlbum(req.params.id); 
-  albums[index].titulo = req.body.titulo;
-  res.status(200).json(albums[index]);
-});
 
 app.delete("/albums/:id", (req, res) => {
   const index = findAlbum(req.params.id);
@@ -33,4 +22,3 @@ app.delete("/albums/:id", (req, res) => {
 });
 
 export default app;
-
