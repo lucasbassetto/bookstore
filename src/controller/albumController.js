@@ -1,4 +1,5 @@
 import album from "../model/Album.js";
+import { author } from "../model/Author.js";
 
 class AlbumController {
 
@@ -22,9 +23,12 @@ class AlbumController {
     }
 
     static async save(req, res) {
+        const newAlbum = req.body;
         try {
-            const newAlbum = await album.create(req.body);
-            res.status(201).json({ message: "Album successfully added!", album: newAlbum });
+            const findAuthorById = await author.findById(newAlbum.author);
+            const joinAlbumAndAuthor = { ...newAlbum, author: { ...findAuthorById._doc } }; // spread operator, para pegar os dados de newAlbum e juntar com o author
+            const createAlbum = await album.create(joinAlbumAndAuthor);
+            res.status(201).json({ message: "Album successfully added!", album: createAlbum });
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
@@ -45,6 +49,16 @@ class AlbumController {
             const id = req.params.id;
             await album.findByIdAndDelete(id);
             res.status(200).json({ message: "Album successfully deleted!" });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    static async findAlbumByGenre(req, res) {
+        const genre = req.query.genre;
+        try {
+            const findAlbumByGenre = await album.find({ genre: genre });
+            res.status(200).json(findAlbumByGenre);
         } catch (error) {
             res.status(500).json({ message: error.message });
         }
