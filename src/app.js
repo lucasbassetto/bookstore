@@ -1,6 +1,7 @@
 import express from "express";
 import connectDatabase from "./config/dbconnect.js";
-import album from "./model/Album.js";
+import routes from "./routes/index.js";
+// import album from "./model/Album.js";
 
 const connection = await connectDatabase();
 
@@ -13,17 +14,18 @@ connection.once("open", () => {
 });
 
 const app = express();
-app.use(express.json());
+routes(app);
+// app.use(express.json());
 
-app.get("/albums", async (req, res) => {
-  const listAll = await album.find({});
-  res.status(200).json(listAll);
-});
+// app.get("/albums", async (req, res) => {
+//   const listAll = await album.find({});
+//   res.status(200).json(listAll);
+// });
 
-app.get("/albums/:id", (req, res) => {
-  const index = findAlbum(req.params.id);
-  res.status(200).json(albums[index]);
-});
+// app.get("/albums/:id", (req, res) => {
+//   const index = findAlbum(req.params.id);
+//   res.status(200).json(albums[index]);
+// });
 
 app.post("/albums", (req, res) => {
   albums.push(req.body);
