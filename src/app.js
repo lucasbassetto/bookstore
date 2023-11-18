@@ -1,27 +1,23 @@
 import express from "express";
 import connectDatabase from "./config/dbconnect.js";
+import album from "./model/Album.js";
 
 const connection = await connectDatabase();
 
-connection.on("error", (erro) => {
-  console.error("Erro de conexão ao MongoDB", erro);
+connection.on("error", (error) => {
+  console.error("Error connection with MongoDB", error);
 });
 
 connection.once("open", () => {
-   console.log("Conexão com MongoDB realizada com sucesso!");
+   console.log("Connection with MongoDB was successful!");
 });
 
 const app = express();
 app.use(express.json());
 
-function findAlbum(id) {
-  return albums.findIndex(albums => {
-    return albums.id === Number(id);
-  });
-}
-
-app.get("/albums", (req, res) => {
-  res.status(200).json(albums);
+app.get("/albums", async (req, res) => {
+  const listAll = await album.find({});
+  res.status(200).json(listAll);
 });
 
 app.get("/albums/:id", (req, res) => {
