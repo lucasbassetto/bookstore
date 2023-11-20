@@ -15,10 +15,4 @@ connection.once("open", () => {
 const app = express();
 routes(app);
 
-app.delete("/albums/:id", (req, res) => {
-  const index = findAlbum(req.params.id);
-  albums.splice(index, 1);
-  res.status(200).send("Album removido com sucesso!");
-});
-
 export default app;
