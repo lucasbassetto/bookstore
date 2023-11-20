@@ -5,7 +5,12 @@ class AlbumController {
 
   static async findAll(req, res) {
     try {
-      const listAll = await album.find({});
+      const { limit = 5, page = 1 } = req.query;
+
+      const listAll = await album.find({})
+        .skip((page - 1) * limit)
+        .limit(limit);
+
       res.status(200).json(listAll);
     } catch (error) {
       res.status(500).json({ message: "Internal Server Error" });
@@ -56,9 +61,14 @@ class AlbumController {
 
   static async findAlbumByFilter(req, res) {
     try {
-      const search = processSearch(req.query);
+      const { limit = 5, page = 1 } = req.query;
+      const search = await processSearch(req.query);
 
-      const albumResult = await album.find(search);
+      const albumResult = await album
+        .find(search)
+        .populate("author")
+        .skip((page - 1) * limit)
+        .limit(limit);
 
       res.status(200).json(albumResult);
     } catch (error) {
@@ -94,14 +104,19 @@ class AlbumController {
 
 }
 
-function processSearch(params) {
-  const { author, title, genre } = params;
+async function processSearch(params) {
+  const { title, genre, author } = params;
 
   const search = {};
 
-  if (author) search.author = params.author;
   if (title) search.title = params.title;
   if (genre) search.genre = params.genre;
+
+  if (author) {
+    const author = await author.findOne({ name: author });
+
+    search.author = author._id;
+  }
 
   return search;
 }

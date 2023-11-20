@@ -2,9 +2,14 @@ import { author } from "../model/Author.js";
 
 class AuthorController {
 
-  static findAll = async(req, res) => {
-    try { 
-      const listAll = await author.find({});
+  static findAll = async (req, res) => {
+    try {
+      const { limit = 5, page = 1 } = req.query;
+
+      const listAll = await author.find({})
+        .skip((page - 1) * limit)
+        .limit(limit);
+        
       res.status(200).json(listAll);
     } catch (error) {
       res.status(500).json({ message: error.message });
