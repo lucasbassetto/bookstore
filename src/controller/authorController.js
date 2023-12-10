@@ -3,13 +3,15 @@ import { author } from "../model/Author.js";
 class AuthorController {
 
   static findAll = async (req, res) => {
+    // #swagger.summary = 'Return list of all authors'
+    // #swagger.description = 'List of all authors'
     try {
       const { limit = 5, page = 1 } = req.query;
 
       const listAll = await author.find({})
         .skip((page - 1) * limit)
         .limit(limit);
-        
+
       res.status(200).json(listAll);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -17,6 +19,8 @@ class AuthorController {
   };
 
   static async findById(req, res) {
+    // #swagger.summary = 'Return author by id'
+    // #swagger.description = 'Return author by id'
     try {
       const id = req.params.id;
       const findAuthorById = await author.findById(id);
@@ -27,6 +31,8 @@ class AuthorController {
   }
 
   static async save(req, res) {
+    // #swagger.summary = 'Save new author'
+    // #swagger.description = 'Save new author'
     try {
       const newAuthor = await author.create(req.body);
       res.status(201).json({ message: "author successfully added!", author: newAuthor });
@@ -36,6 +42,8 @@ class AuthorController {
   }
 
   static async update(req, res) {
+    // #swagger.summary = 'Update author by id'
+    // #swagger.description = 'Update author by id'
     try {
       const id = req.params.id;
       await author.findByIdAndUpdate(id, req.body);
@@ -46,6 +54,8 @@ class AuthorController {
   }
 
   static async delete(req, res) {
+    // #swagger.summary = 'Delete author by id'
+    // #swagger.description = 'Delete author by id'
     try {
       const id = req.params.id;
       await author.findByIdAndDelete(id);

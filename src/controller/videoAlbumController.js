@@ -4,6 +4,8 @@ import { author } from "../model/Author.js";
 class VideoAlbumController {
 
   static async findAll(req, res) {
+    // #swagger.summary = 'Return list of all video albums'
+    // #swagger.description = 'Return list of all video albums'
     try {
       const { limit = 5, page = 1 } = req.query;
 
@@ -18,6 +20,8 @@ class VideoAlbumController {
   }
 
   static async findById(req, res) {
+    // #swagger.summary = 'Return video album by id'
+    // #swagger.description = 'Return video album by id'
     try {
       const id = req.params.id;
       const findAlbumById = await videoAlbum.findById(id);
@@ -28,6 +32,8 @@ class VideoAlbumController {
   }
 
   static async save(req, res) {
+    // #swagger.summary = 'Save new video album'
+    // #swagger.description = 'Save new video album'
     const newAlbum = req.body;
     try {
       const findAuthorById = await author.findById(newAlbum.author);
@@ -40,6 +46,8 @@ class VideoAlbumController {
   }
 
   static async update(req, res) {
+    // #swagger.summary = 'Update video album by id'
+    // #swagger.description = 'Update video album by id'
     try {
       const id = req.params.id;
       await videoAlbum.findByIdAndUpdate(id, req.body);
@@ -50,6 +58,8 @@ class VideoAlbumController {
   }
 
   static async delete(req, res) {
+    // #swagger.summary = 'Delete video album by id'
+    // #swagger.description = 'Delete video album by id'
     try {
       const id = req.params.id;
       await videoAlbum.findByIdAndDelete(id);
@@ -60,6 +70,8 @@ class VideoAlbumController {
   }
 
   static async findAlbumByFilter(req, res) {
+    // #swagger.summary = 'Return video album by filter'
+    // #swagger.description = 'Return video album by filter. You can filter by title, genre and author'
     try {
       const { limit = 5, page = 1 } = req.query;
       const search = await processSearch(req.query);
@@ -75,33 +87,6 @@ class VideoAlbumController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
-
-
-  //   static async findAlbumByGenre(req, res) {
-  //   const genre = req.query.genre;
-  //   try {
-  //     const findAlbumByGenre = await album.find({ genre: genre });
-  //     res.status(200).json(findAlbumByGenre);
-  //   } catch (error) {
-  //     res.status(500).json({ message: "Internal Server Error" });
-  //   }
-  // }
-
-  //   static async findAlbumByAuthorAndTitle(req, res) {
-  //   try {
-  //     const { author, title } = req.query;
-  //     const search = {};
-
-  //     if (author) search.author = author;
-  //     if (title) search.title = title;
-
-  //     const findAlbumByAuthorAndTitle = await album.find(search);
-  //     res.status(200).json(findAlbumByAuthorAndTitle);
-  //   } catch (error) {
-  //     res.status(500).json({ message: "Internal Server Error" });
-  //   }
-  // }
-
 }
 
 async function processSearch(params) {

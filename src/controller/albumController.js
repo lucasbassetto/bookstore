@@ -4,6 +4,8 @@ import { author } from "../model/Author.js";
 class AlbumController {
 
   static async findAll(req, res) {
+    // #swagger.summary = 'Return list of all albums'
+    // #swagger.description = 'List of all albums'
     try {
       const { limit = 5, page = 1 } = req.query;
 
@@ -18,6 +20,8 @@ class AlbumController {
   }
 
   static async findById(req, res) {
+    // #swagger.summary = 'Return album by id'
+    // #swagger.description = 'Return album by id'
     try {
       const id = req.params.id;
       const findAlbumById = await album.findById(id);
@@ -28,10 +32,12 @@ class AlbumController {
   }
 
   static async save(req, res) {
+    // #swagger.summary = 'Save new album'
+    // #swagger.description = 'Save new album'
     const newAlbum = req.body;
     try {
       const findAuthorById = await author.findById(newAlbum.author);
-      const joinAlbumAndAuthor = { ...newAlbum, author: { ...findAuthorById._doc } }; // spread operator, para pegar os dados de newAlbum e juntar com o author
+      const joinAlbumAndAuthor = { ...newAlbum, author: { ...findAuthorById._doc } };
       const createAlbum = await album.create(joinAlbumAndAuthor);
       res.status(201).json({ message: "Album successfully added!", album: createAlbum });
     } catch (error) {
@@ -40,6 +46,8 @@ class AlbumController {
   }
 
   static async update(req, res) {
+    // #swagger.summary = 'Update album by id'
+    // #swagger.description = 'Update album by id'
     try {
       const id = req.params.id;
       await album.findByIdAndUpdate(id, req.body);
@@ -50,6 +58,8 @@ class AlbumController {
   }
 
   static async delete(req, res) {
+    // #swagger.summary = 'Delete album by id'
+    // #swagger.description = 'Delete album by id'
     try {
       const id = req.params.id;
       await album.findByIdAndDelete(id);
@@ -60,6 +70,8 @@ class AlbumController {
   }
 
   static async findAlbumByFilter(req, res) {
+    // #swagger.summary = 'Return album by filter'
+    // #swagger.description = 'Return album by filter. You can filter by title, genre and author'
     try {
       const { limit = 5, page = 1 } = req.query;
       const search = await processSearch(req.query);
@@ -75,33 +87,6 @@ class AlbumController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
-
-
-  //   static async findAlbumByGenre(req, res) {
-  //   const genre = req.query.genre;
-  //   try {
-  //     const findAlbumByGenre = await album.find({ genre: genre });
-  //     res.status(200).json(findAlbumByGenre);
-  //   } catch (error) {
-  //     res.status(500).json({ message: "Internal Server Error" });
-  //   }
-  // }
-
-  //   static async findAlbumByAuthorAndTitle(req, res) {
-  //   try {
-  //     const { author, title } = req.query;
-  //     const search = {};
-
-  //     if (author) search.author = author;
-  //     if (title) search.title = title;
-
-  //     const findAlbumByAuthorAndTitle = await album.find(search);
-  //     res.status(200).json(findAlbumByAuthorAndTitle);
-  //   } catch (error) {
-  //     res.status(500).json({ message: "Internal Server Error" });
-  //   }
-  // }
-
 }
 
 async function processSearch(params) {
