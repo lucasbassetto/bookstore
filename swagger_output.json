@@ -493,6 +493,20 @@
           }
         }
       }
+    },
+    "/install": {
+      "get": {
+        "summary": "Install",
+        "description": "Install database",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   }
 }
