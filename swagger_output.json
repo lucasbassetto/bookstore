@@ -380,8 +380,14 @@
             "schema": {
               "type": "object",
               "properties": {
-                "author": {
+                "title": {
                   "example": "any"
+                },
+                "genre": {
+                  "example": "any"
+                },
+                "author": {
+                  "example": "author id"
                 }
               }
             }

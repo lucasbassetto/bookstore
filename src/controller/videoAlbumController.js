@@ -39,7 +39,7 @@ class VideoAlbumController {
       const findAuthorById = await author.findById(newAlbum.author);
       const joinAlbumAndAuthor = { ...newAlbum, author: { ...findAuthorById._doc } }; // spread operator, para pegar os dados de newAlbum e juntar com o author
       const createAlbum = await videoAlbum.create(joinAlbumAndAuthor);
-      res.status(201).json({ message: "Album successfully added!", album: createAlbum });
+      res.status(201).json({ message: "Video Album successfully added!", album: createAlbum });
     } catch (error) {
       res.status(400).json({ message: error.message });
     }

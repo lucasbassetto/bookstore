@@ -6,8 +6,6 @@ const router = express.Router();
 
 router.get("/albums", AlbumController.findAll);
 router.get("/albums/search", AlbumController.findAlbumByFilter);
-// router.get("/albums/search/genre", AlbumController.findAlbumByGenre);
-// router.get("/albums/search/author-title", AlbumController.findAlbumByAuthorAndTitle);
 router.get("/albums/:id", AlbumController.findById);
 router.post("/albums", isAuthenticated, AlbumController.save);
 router.put("/albums/:id", AlbumController.update);
